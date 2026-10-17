@@ -39,7 +39,7 @@ window.ARBA_CFG = {
     ],
     // Video del hero (liviano, sin audio). Vacío = usa la foto.
     heroVideo: { src: 'videos/hero.mp4', poster: 'videos/recorrido-local.jpg' },
-    // Videos verticales de la sección "Miralos en movimiento"
+    // Videos verticales de la sección "Conocé nuestros productos"
     videos: [
       { src: 'videos/recorrido-local.mp4',   poster: 'videos/recorrido-local.jpg',   titulo: 'Recorré el local' },
       { src: 'videos/sillones-living.mp4',   poster: 'videos/sillones-living.jpg',   titulo: 'Sillones para tu living' },
