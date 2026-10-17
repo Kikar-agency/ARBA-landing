@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/arba.css?v=20261017b">
+<link rel="stylesheet" href="css/arba.css?v=20261017c">
 </head>
 <body>
 <div id="hdr"></div>
@@ -161,10 +161,10 @@
 
 <div id="ftr"></div>
 
-<script src="js/config.js?v=20261017b"></script>
-<script src="js/muestra.js?v=20261017b"></script>
-<script src="js/api.js?v=20261017b"></script>
-<script src="js/ui.js?v=20261017b"></script>
+<script src="js/config.js?v=20261017c"></script>
+<script src="js/muestra.js?v=20261017c"></script>
+<script src="js/api.js?v=20261017c"></script>
+<script src="js/ui.js?v=20261017c"></script>
 <script>
 (async function(){
   const U = ArbaUI, $ = (id) => document.getElementById(id);
@@ -299,7 +299,8 @@
   if ((site.horarios || []).length) $('horTxt').innerHTML = site.horarios.map(U.esc).join('<br>'); else $('horRow').style.display = 'none';
   $('waTxt').textContent = site.whatsappVisible;
   const q = encodeURIComponent((site.direccion || 'Centro, Córdoba') + ', Córdoba, Argentina');
-  $('mapBox').innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa" src="https://www.google.com/maps?q=${q}&z=${site.direccion ? 16 : 14}&output=embed"></iframe>`;
+  // mapa solo en pantallas grandes: en celular el embed de Google se ve mal, queda el botón "Cómo llegar"
+  if (matchMedia('(min-width: 601px)').matches) $('mapBox').innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa" src="https://www.google.com/maps?q=${q}&z=${site.direccion ? 16 : 14}&output=embed"></iframe>`;
   if (site.direccion) $('mapsBtn').href = `https://www.google.com/maps/search/?api=1&query=${q}`; else $('mapsBtn').style.display = 'none';
 
   // videos

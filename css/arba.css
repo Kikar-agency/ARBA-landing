@@ -446,7 +446,10 @@ body.lock{overflow:hidden}
   .paso:last-child{border-bottom:0}
   .paso .n{width:40px;height:40px;font-size:15px;margin:0;grid-row:span 2}
   .paso h3{font-size:18px;margin:8px 0 4px}
-  .paso p{font-size:14px}
+  .paso p{display:none}
+  .paso,.paso+.paso{align-items:center;padding:12px 0}
+  .paso .n{grid-row:auto}
+  .paso h3{margin:0}
   /* consulta */
   #consulta{padding-top:8px}
   .form-card{border-radius:22px}
@@ -461,7 +464,7 @@ body.lock{overflow:hidden}
   .donde .row p{font-size:15px;color:var(--tinta)}
   .donde .info > div:last-child{display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important;margin-top:4px!important}
   .donde .info > div:last-child .btn{justify-content:center;padding:13px 10px;font-size:14px}
-  .donde .map,.donde .map iframe{min-height:240px;border-radius:18px}
+  .donde .map{display:none}
   /* cierre y footer */
   .cierre{padding:56px 0}
   .cierre h2{font-size:32px;margin-bottom:22px}
