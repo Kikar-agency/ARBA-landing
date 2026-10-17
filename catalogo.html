@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo — arba HOGAR</title>
+<meta name="description" content="Catálogo de arba HOGAR: sillones, comedores, roperos, melamina, sommiers y respaldos.">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="theme-color" content="#101627">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/arba.css">
+</head>
+<body>
+<div id="hdr"></div>
+<main class="wrap" style="padding-bottom:100px">
+  <section class="cat-hero">
+    <p class="eyebrow" id="catEyebrow">Catálogo</p>
+    <h1 id="catTitle">Todo para tu casa</h1>
+    <p class="lead" id="catDesc" style="margin-top:14px"></p>
+  </section>
+  <div class="toolbar">
+    <div class="pills" id="pills"></div>
+    <div style="display:flex;gap:10px;flex:1;justify-content:flex-end;min-width:0">
+      <label class="search"><svg class="ico"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Buscar: sillón gris, 2 plazas…" autocomplete="off"></label>
+      <select class="sort" id="sort" aria-label="Ordenar">
+        <option value="">Destacados</option>
+        <option value="asc">Menor precio</option>
+        <option value="desc">Mayor precio</option>
+      </select>
+    </div>
+  </div>
+  <p class="result-n" id="resN"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="empty" style="display:none">
+    <p style="font-size:20px;color:var(--tinta);margin-bottom:8px">No encontramos eso en el catálogo</p>
+    <p>Puede que lo tengamos en el local. Escribinos y te decimos.</p>
+    <a class="btn btn-wa" id="emptyWa" style="margin-top:22px" data-src="busqueda-vacia"><span class="dot"></span>Consultar por WhatsApp</a>
+  </div>
+</main>
+<div id="ftr"></div>
+
+<script src="js/config.js"></script>
+<script src="js/muestra.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async function(){
+  const U = ArbaUI, $ = (id) => document.getElementById(id);
+  const site = await U.boot();
+  if (!site.catalogoActivo) { location.replace('index.html'); return; }
+  const cat = await ArbaAPI.catalogo();
+  U.shell(site, { activo: 'catalogo', catalogo: true, promoBanner: cat.promos.find(p => p.banner) });
+
+  const catById = Object.fromEntries(cat.categorias.map(c => [c.id, c]));
+  const params = new URLSearchParams(location.search);
+  let state = { cat: params.get('cat') || '', q: params.get('q') || '', sort: '', promos: params.has('promos') };
+  if (location.hash === '#buscar') setTimeout(() => $('q').focus(), 50);
+  $('q').value = state.q;
+
+  const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  function puntaje(p, palabras) {
+    const nombre = norm(p.nombre);
+    const resto = norm([p.resumen, p.descripcion, catById[p.categoria_id]?.nombre, ...(p.variantes || []).map(v => v.nombre), ...(p.specs || []).map(s => s.k + ' ' + s.v)].join(' '));
+    let s = 0;
+    for (const w of palabras) {
+      if (nombre.includes(w)) s += 10;
+      else if (resto.includes(w)) s += 4;
+      else if (w.length > 3 && (nombre.includes(w.slice(0, -1)) || resto.includes(w.slice(0, -1)))) s += 2;  // plural/singular
+      else return 0;
+    }
+    return s;
+  }
+
+  function render() {
+    const c = cat.categorias.find(x => x.slug === state.cat);
+    $('catEyebrow').textContent = state.promos ? 'Ofertas' : 'Catálogo';
+    $('catTitle').textContent = c ? c.nombre : (state.promos ? 'Productos en promo' : 'Todo para tu casa');
+    $('catDesc').textContent = c ? c.descripcion : 'Modelos, variantes y precios. Si no encontrás lo que buscás, escribinos: hay más en el local.';
+    document.title = (c ? c.nombre + ' — ' : 'Catálogo — ') + 'arba HOGAR';
+    const hayPromos = cat.productos.some(p => U.promoDe(p, cat.promos));
+    $('pills').innerHTML = (hayPromos ? `<button class="pill promo${state.promos ? ' on' : ''}" data-promo>✦ Ofertas</button>` : '') + [`<button class="pill${!state.cat ? ' on' : ''}" data-c="">Todo</button>`]
+      .concat(cat.categorias.filter(x => cat.productos.some(p => p.categoria_id === x.id)).map(x => `<button class="pill${state.cat === x.slug ? ' on' : ''}" data-c="${x.slug}">${U.esc(x.nombre)}</button>`)).join('');
+    $('pills').querySelectorAll('.pill[data-c]').forEach(b => b.onclick = () => { state.cat = b.dataset.c; sync(); render(); });
+    $('pills').querySelector('[data-promo]')?.addEventListener('click', () => { state.promos = !state.promos; sync(); render(); });
+
+    let items = cat.productos.filter(p => (!c || p.categoria_id === c.id) && (!state.promos || U.promoDe(p, cat.promos)));
+    const palabras = norm(state.q).split(/\s+/).filter(Boolean);
+    if (palabras.length) items = items.map(p => ({ p, s: puntaje(p, palabras) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s).map(x => x.p);
+    else items = items.slice().sort((a, b) => (b.destacado - a.destacado) || (a.orden - b.orden));
+    if (state.sort) {
+      const val = (p) => { const pr = U.desdePrecio(p, cat.promos); return pr.mostrar ? pr.precio : (state.sort === 'asc' ? Infinity : -Infinity); };
+      items.sort((a, b) => state.sort === 'asc' ? val(a) - val(b) : val(b) - val(a));
+    }
+    $('grid').innerHTML = items.map(p => U.card(p, catById[p.categoria_id], cat.promos)).join('');
+    $('resN').textContent = items.length ? `${items.length} producto${items.length > 1 ? 's' : ''}` : '';
+    U.bindQuick($('grid'), cat);
+    $('empty').style.display = items.length ? 'none' : '';
+    if (!items.length) {
+      const busq = state.q ? `"${state.q}"` : (c ? c.nombre.toLowerCase() : 'un mueble');
+      const a = $('emptyWa'); delete a.dataset.waOk; a.dataset.wa = `Hola! Estoy buscando ${busq}, ¿tienen algo así?`; U.bindWA();
+    }
+  }
+  function sync() {
+    const p = new URLSearchParams();
+    if (state.cat) p.set('cat', state.cat); if (state.q) p.set('q', state.q); if (state.promos) p.set('promos', '1');
+    history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
+  }
+  let t; $('q').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { state.q = e.target.value.trim(); sync(); render(); if (state.q.length > 2) U.track('Search', { search_string: state.q }); }, 220); });
+  $('sort').onchange = (e) => { state.sort = e.target.value; render(); };
+  render();
+})();
+</script>
+</body>
+</html>

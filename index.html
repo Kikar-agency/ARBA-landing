@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arba HOGAR — Muebles en el centro de Córdoba</title>
+<meta name="description" content="Sillones, juegos de comedor, roperos, melamina para armar, sommiers y respaldos. Visitanos en el centro de Córdoba o consultanos por WhatsApp.">
+<meta property="og:title" content="arba HOGAR — Tu hogar empieza cerca">
+<meta property="og:description" content="Sillones, comedores, roperos, melamina, sommiers y respaldos. Consultanos por WhatsApp.">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#101627">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/arba.css">
+</head>
+<body>
+<div id="hdr"></div>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Muebles · Centro de Córdoba</p>
+      <h1 style="margin-top:18px">Tu hogar<br>empieza <em>cerca.</em></h1>
+      <p class="lead">Sillones, juegos de comedor, roperos, melamina para armar, sommiers y respaldos. Escribinos y te pasamos fotos, medidas y precio del modelo que te guste.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" data-wa="Hola! Vi la web de arba HOGAR y quiero consultar por un mueble." data-src="hero"><span class="dot"></span>Consultar por WhatsApp</a>
+        <a class="btn btn-line" href="#rubros" id="heroSec">Ver qué vendemos</a>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="arch-wrap reveal">
+      <div class="arch" id="heroMedia">
+        <img src="assets/hero-vertical.webp" alt="Living con sillón y mesa ratona" fetchpriority="high">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO CON CUENTA REGRESIVA (modo tienda) -->
+<section class="wrap reveal" id="promoSec" style="display:none;padding-bottom:28px"></section>
+
+<!-- BENEFICIOS (modo tienda) -->
+<section class="wrap reveal" id="perksSec" style="display:none;padding-bottom:10px"></section>
+
+<!-- RUBROS -->
+<section class="sec" id="rubros" style="padding-top:60px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow" id="rubrosEyebrow">Qué vendemos</p><h2 style="margin-top:14px" id="rubrosTitle">Todo para<br>armar tu casa</h2></div>
+      <p class="lead" id="rubrosLead">Elegí el rubro y escribinos directo. Te respondemos con los modelos que tenemos, medidas y precio actualizado.</p>
+    </div>
+    <div class="rubros" id="rubrosGrid"></div>
+  </div>
+</section>
+
+<!-- CARRUSELES POR RUBRO (modo tienda) -->
+<section class="sec" id="cars" style="padding-top:10px;display:none"><div class="wrap" id="carsWrap"></div></section>
+
+<!-- AMBIENTES -->
+<section class="wrap reveal" style="padding-bottom:20px">
+  <div class="amb">
+    <figure><img src="assets/ambiente-living.webp" alt="Living" loading="lazy"><figcaption>LIVING</figcaption></figure>
+    <figure><img src="assets/ambiente-comedor.webp" alt="Comedor" loading="lazy"><figcaption>COMEDOR</figcaption></figure>
+    <figure><img src="assets/ambiente-dormitorio.webp" alt="Dormitorio" loading="lazy"><figcaption>DORMITORIO</figcaption></figure>
+  </div>
+  <p class="amb-note">Imágenes ilustrativas de ambientes.</p>
+</section>
+
+<!-- FINANCIACIÓN (modo tienda) -->
+<section class="sec dark" id="finSec" style="display:none;margin-top:90px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow">Formas de pago</p><h2 style="margin-top:14px">Pagalo como<br>te quede mejor</h2></div>
+      <a class="btn btn-marfil" data-wa="Hola! Quiero consultar por las formas de pago y cuotas." data-src="financiacion"><svg class="ico"><use href="#i-wa"/></svg>Consultar planes</a>
+    </div>
+    <div class="fin reveal" id="finGrid"></div>
+  </div>
+</section>
+
+<!-- CÓMO COMPRAR -->
+<section class="sec dark" id="como" style="margin-top:90px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow">Cómo comprar</p><h2 style="margin-top:14px">Simple y<br>con atención real</h2></div>
+      <p class="lead">Nada de formularios eternos. Hablás con una persona del local que te asesora de principio a fin.</p>
+    </div>
+    <div class="pasos reveal" id="pasos">
+      <div class="paso"><div class="n">1</div><h3>Contanos qué buscás</h3><p>Escribinos por WhatsApp qué mueble necesitás, para qué ambiente y, si las tenés, las medidas del espacio.</p></div>
+      <div class="paso"><div class="n">2</div><h3>Te mandamos opciones</h3><p>Fotos, medidas, telas o colores disponibles y el precio actualizado de cada modelo.</p></div>
+      <div class="paso"><div class="n">3</div><h3>Venís a verlo</h3><p>Pasá por el local en el centro para verlo en persona y cerrar tu compra con nosotros.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="sec" id="videos" data-if-videos>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow">Desde el local</p><h2 style="margin-top:14px">Miralos<br>en movimiento</h2></div>
+      <a class="btn btn-line" data-wa="Hola! Vi los videos en la web y quiero consultar." data-src="videos"><svg class="ico"><use href="#i-wa"/></svg>Consultar por lo que viste</a>
+    </div>
+    <div class="reels reveal" id="reels"></div>
+  </div>
+</section>
+
+<!-- CONSULTA RÁPIDA -->
+<section class="sec" id="consulta" style="padding-top:20px">
+  <div class="wrap">
+    <div class="form-card reveal">
+      <div>
+        <p class="eyebrow">Consulta rápida</p>
+        <h2 style="margin-top:14px;font-size:clamp(30px,4vw,46px)">¿Qué estás buscando?</h2>
+        <p class="lead" style="margin-top:16px">Completá esto y se abre WhatsApp con tu mensaje armado. Solo tenés que enviarlo.</p>
+      </div>
+      <form id="leadForm">
+        <label>Tu nombre<input name="nombre" required autocomplete="given-name" placeholder="Ej: Laura"></label>
+        <label>Qué te interesa<select name="rubro" id="rubroSelect" required></select></label>
+        <label>Detalle (opcional)<textarea name="detalle" rows="3" placeholder="Ej: sillón de 3 cuerpos, gris, para un living de 3 metros"></textarea></label>
+        <button class="btn btn-wa" type="submit"><span class="dot"></span>Enviar por WhatsApp</button>
+        <small>Te responde una persona del local.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- DÓNDE -->
+<section class="sec" id="donde" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow">Dónde estamos</p><h2 style="margin-top:14px">En el centro.<br>Cerca tuyo.</h2></div>
+    </div>
+    <div class="donde reveal">
+      <div class="info">
+        <div class="row"><div class="i"><svg class="ico"><use href="#i-pin"/></svg></div><div><h4>Dirección</h4><p id="dirTxt"></p></div></div>
+        <div class="row" id="horRow"><div class="i"><svg class="ico"><use href="#i-clock"/></svg></div><div><h4>Horarios</h4><p id="horTxt"></p></div></div>
+        <div class="row"><div class="i"><svg class="ico"><use href="#i-wa"/></svg></div><div><h4>WhatsApp</h4><p id="waTxt"></p></div></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
+          <a class="btn btn-wa" data-wa="Hola! Quiero pasar por el local, ¿me confirman la dirección y el horario?" data-src="donde"><span class="dot"></span>Pedir ubicación</a>
+          <a class="btn btn-line" id="mapsBtn" target="_blank" rel="noopener">Cómo llegar</a>
+        </div>
+      </div>
+      <div class="map" id="mapBox"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="cierre dark">
+  <div class="wrap" style="position:relative;z-index:1">
+    <p class="eyebrow" style="margin-bottom:22px">arba HOGAR</p>
+    <h2>Una nueva forma de sentirte en casa.</h2>
+    <a class="btn btn-marfil" data-wa="Hola! Vi la web de arba HOGAR y quiero hacer una consulta." data-src="cierre"><svg class="ico"><use href="#i-wa"/></svg>Hablemos por WhatsApp</a>
+  </div>
+</section>
+</main>
+
+<div id="ftr"></div>
+
+<script src="js/config.js"></script>
+<script src="js/muestra.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async function(){
+  const U = ArbaUI, $ = (id) => document.getElementById(id);
+  const site = await U.boot();
+  let cat = { categorias: [], productos: [], promos: [] };
+  try { cat = await ArbaAPI.catalogo(); } catch (e) { console.warn(e); }
+  if (!cat.categorias.length) cat.categorias = window.ARBA_MUESTRA.categorias;   // red de seguridad
+  const conCatalogo = site.catalogoActivo && cat.productos.length > 0;
+  const banner = conCatalogo ? cat.promos.find(p => p.banner) : null;
+
+  U.shell(site, { catalogo: conCatalogo, promoBanner: banner });
+
+  const catById = Object.fromEntries(cat.categorias.map(c => [c.id, c]));
+  const prodsDe = (c) => cat.productos.filter(p => p.categoria_id === c.id);
+
+  // chips del hero
+  $('chips').innerHTML = cat.categorias.map(c => conCatalogo
+    ? `<a class="chip" href="catalogo.html?cat=${c.slug}">${U.esc(c.nombre)}</a>`
+    : `<span class="chip">${U.esc(c.nombre)}</span>`).join('');
+
+  if (conCatalogo) {
+    $('heroSec').textContent = 'Ver catálogo'; $('heroSec').href = 'catalogo.html';
+    $('rubrosEyebrow').textContent = 'Comprá por rubro';
+    $('rubrosTitle').innerHTML = 'Elegí qué<br>estás buscando';
+    $('rubrosLead').textContent = 'Precios publicados, variantes y cuotas. Sumá lo que te guste al carrito y mandanos el pedido por WhatsApp.';
+
+    // promo con cuenta regresiva: la promo con franja, o la que vence antes
+    const conFecha = cat.promos.filter(p => p.hasta).sort((a, b) => a.hasta.localeCompare(b.hasta));
+    const promo = banner || conFecha[0];
+    if (promo) {
+      const alcance = promo.categoria_id ? catById[promo.categoria_id]?.nombre : 'productos seleccionados';
+      const href = promo.categoria_id && catById[promo.categoria_id] ? `catalogo.html?cat=${catById[promo.categoria_id].slug}` : 'catalogo.html?promos=1';
+      const fin = U.finDe(promo);
+      $('promoSec').style.display = '';
+      $('promoSec').innerHTML = `<div class="promo-band">
+        <div><p class="eyebrow">Promo vigente</p>
+          <h2>${U.esc(promo.titulo)}${promo.tipo === 'porcentaje' ? ` <b>${Number(promo.valor)}% OFF</b>` : ''}</h2>
+          <p>En ${U.esc(alcance || 'productos seleccionados')}${promo.hasta ? ` · válida hasta el ${promo.hasta.split('-').reverse().slice(0, 2).join('/')}` : ' · por tiempo limitado'}.</p></div>
+        <div class="right">${fin ? '<div class="cdown" id="cdHome"></div>' : ''}<a class="btn btn-marfil" href="${href}">Ver productos en promo</a></div></div>`;
+      if (fin) U.countdown($('cdHome'), fin);
+    }
+
+    // beneficios
+    const pl = (site.planes || [])[0];
+    const perks = [
+      pl ? ['i-card', `${pl.cuotas} cuotas${pl.sinInteres !== false ? ' sin interés' : ''}`, pl.nombre ? `con ${pl.nombre}` : 'con tarjeta'] : ['i-card', 'Pagá con tarjeta', 'Consultá planes'],
+      ['i-cash', 'Mejor precio', 'en efectivo o transferencia'],
+      ['i-store', 'Retirá en el local', site.direccion ? site.direccion.split(',')[0] : 'en el centro'],
+      ['i-wa', 'Te asesoramos', 'por WhatsApp'],
+    ];
+    $('perksSec').style.display = '';
+    $('perksSec').innerHTML = `<div class="perks">${perks.map(([ic, b, sp]) => `<div class="perk"><div class="i"><svg class="ico"><use href="#${ic}"/></svg></div><div><b>${U.esc(b)}</b><span>${U.esc(sp)}</span></div></div>`).join('')}</div>`;
+
+    // financiación
+    const ahorros = cat.productos.map(p => U.desdePrecio(p, cat.promos)).filter(x => x.mostrar && x.ahorro > 0).map(x => x.ahorro).sort((a, b) => a - b);
+    const ahorroTip = ahorros.length ? ahorros[Math.floor(ahorros.length / 2)] : 0;
+    const fin = (site.planes || []).map(p => ['i-card', `${p.cuotas} cuotas`, `${p.sinInteres !== false ? 'Sin interés' : 'Con tarjeta'}${p.nombre ? ' con ' + p.nombre : ''}`]);
+    fin.push(['i-cash', ahorroTip ? `${ahorroTip}% menos` : 'Mejor precio', 'Pagando en efectivo o transferencia']);
+    fin.push(['i-store', 'Retiro en el local', site.direccion || 'Centro de Córdoba']);
+    $('finSec').style.display = '';
+    $('finGrid').innerHTML = fin.slice(0, 3).map(([ic, b, p]) => `<div class="fin-card"><div class="i"><svg class="ico"><use href="#${ic}"/></svg></div><b>${U.esc(b)}</b><p>${U.esc(p)}</p></div>`).join('');
+    $('como').style.marginTop = '0';
+
+    // cómo comprar en modo tienda
+    $('pasos').innerHTML = [
+      ['Elegí tus muebles', 'Mirá modelos, variantes y precios. Sumá al carrito todo lo que te interese.'],
+      ['Mandá el pedido', 'Desde el carrito se arma el mensaje con productos, total y forma de pago. Lo enviás por WhatsApp.'],
+      ['Confirmamos y retirás', 'Te confirmamos disponibilidad y precio final. Retirás en el local o coordinamos la entrega.'],
+    ].map(([h, p], i) => `<div class="paso"><div class="n">${i + 1}</div><h3>${h}</h3><p>${p}</p></div>`).join('');
+  }
+
+  // rubros
+  $('rubrosGrid').innerHTML = cat.categorias.map((r, i) => {
+    const ps = prodsDe(r);
+    const precios = ps.map(p => U.desdePrecio(p, cat.promos)).filter(x => x.mostrar).map(x => x.precio);
+    const desde = precios.length ? Math.min(...precios) : null;
+    const attrs = conCatalogo
+      ? `href="catalogo.html?cat=${r.slug}"`
+      : `data-wa="Hola! Vi la web de arba HOGAR y quiero consultar por ${U.esc(r.nombre.toLowerCase())}." data-src="rubro" data-rubro="${r.slug}"`;
+    return `<a class="rubro reveal" ${attrs}>
+      <span class="num">${String(i + 1).padStart(2, '0')}${conCatalogo && ps.length ? `<span class="cnt">${ps.length} modelo${ps.length > 1 ? 's' : ''}</span>` : ''}</span>
+      <div class="art">${U.ICONOS[r.icono] || U.ICONOS.generico}</div>
+      <h3>${U.esc(r.nombre)}</h3><p>${U.esc(r.descripcion)}</p>
+      ${conCatalogo && desde ? `<div class="desde">desde<b>${U.money(desde)}</b></div>` : ''}
+      <div class="go"><span>${conCatalogo ? (ps.length ? 'Ver modelos' : 'Consultar') : 'Consultar modelos'}</span><span class="arrow"><svg class="ico"><use href="#i-arrow"/></svg></span></div></a>`;
+  }).join('');
+  $('rubroSelect').innerHTML = '<option value="" disabled selected>Elegí un rubro</option>' +
+    cat.categorias.map(r => `<option>${U.esc(r.nombre)}</option>`).join('') + '<option>Otra cosa</option>';
+
+  // carruseles: destacados + uno por rubro
+  if (conCatalogo) {
+    const bloques = [];
+    const dest = cat.productos.filter(p => p.destacado);
+    if (dest.length) bloques.push({ eyebrow: 'Destacados', titulo: 'Lo que más nos piden', href: 'catalogo.html', items: dest });
+    const enPromo = cat.productos.filter(p => U.promoDe(p, cat.promos));
+    if (enPromo.length) bloques.push({ eyebrow: 'Ofertas', titulo: 'En promoción', href: 'catalogo.html?promos=1', items: enPromo });
+    const flechas = `<button class="car-btn" data-dir="-1" aria-label="Anterior"><svg class="ico"><use href="#i-chev-l"/></svg></button><button class="car-btn" data-dir="1" aria-label="Siguiente"><svg class="ico"><use href="#i-chev-r"/></svg></button>`;
+    const conProds = cat.categorias.filter(c => prodsDe(c).length);
+    $('cars').style.display = '';
+    $('carsWrap').innerHTML = bloques.map(b => `<div class="car car-sec reveal" data-car>
+      <div class="car-head"><div><p class="eyebrow">${U.esc(b.eyebrow)}</p><h2 style="margin-top:10px">${U.esc(b.titulo)}</h2></div>
+        <div class="r"><a href="${b.href}">Ver todo</a>${flechas}</div></div>
+      <div class="car-track">${b.items.slice(0, 10).map(p => U.card(p, catById[p.categoria_id], cat.promos)).join('')}</div></div>`).join('') +
+      (conProds.length ? `<div class="car car-sec reveal" data-car id="tabsCar">
+        <div class="car-head"><div><p class="eyebrow">Explorá</p><h2 style="margin-top:10px">Por rubro</h2></div><div class="r"><a id="tabAll" href="#">Ver todo</a>${flechas}</div></div>
+        <div class="pills tabs" id="tabs">${conProds.map((c, i) => `<button class="pill${i ? '' : ' on'}" data-t="${c.id}">${U.esc(c.nombre)}</button>`).join('')}</div>
+        <div class="car-track" id="tabTrack"></div></div>` : '');
+    const tab = (id) => {
+      const c = catById[id];
+      $('tabTrack').innerHTML = prodsDe(c).map(p => U.card(p, c, cat.promos)).join('');
+      $('tabTrack').scrollLeft = 0; $('tabAll').href = `catalogo.html?cat=${c.slug}`;
+      document.querySelectorAll('#tabs .pill').forEach(b => b.classList.toggle('on', b.dataset.t === id));
+      U.bindQuick($('tabTrack'), cat); $('tabTrack').dispatchEvent(new Event('scroll'));
+    };
+    if (conProds.length) { document.querySelectorAll('#tabs .pill').forEach(b => b.onclick = () => tab(b.dataset.t)); tab(conProds[0].id); }
+    U.carousel($('carsWrap'));
+    U.bindQuick(document, cat);
+  }
+
+  // formulario → WhatsApp
+  $('leadForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    let msg = `Hola! Soy ${f.get('nombre').trim()}. Vi la web de arba HOGAR y me interesa: ${f.get('rubro')}.`;
+    if (f.get('detalle').trim()) msg += `\n${f.get('detalle').trim()}`;
+    U.track('Lead', { content_category: f.get('rubro') });
+    window.open(U.waURL(msg), '_blank');
+  });
+
+  // dónde
+  $('dirTxt').textContent = site.direccion || 'Centro de Córdoba — escribinos y te pasamos la ubicación exacta.';
+  if ((site.horarios || []).length) $('horTxt').innerHTML = site.horarios.map(U.esc).join('<br>'); else $('horRow').style.display = 'none';
+  $('waTxt').textContent = site.whatsappVisible;
+  const q = encodeURIComponent((site.direccion || 'Centro, Córdoba') + ', Córdoba, Argentina');
+  $('mapBox').innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa" src="https://www.google.com/maps?q=${q}&z=${site.direccion ? 16 : 14}&output=embed"></iframe>`;
+  if (site.direccion) $('mapsBtn').href = `https://www.google.com/maps/search/?api=1&query=${q}`; else $('mapsBtn').style.display = 'none';
+
+  // videos
+  const vids = site.videos || [];
+  const v0 = site.heroVideo && site.heroVideo.src ? site.heroVideo : vids[0];
+  if (v0 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    $('heroMedia').innerHTML = `<video autoplay muted loop playsinline preload="metadata" poster="${U.esc(v0.poster || 'assets/hero-vertical.webp')}"><source src="${U.esc(v0.src)}" type="video/mp4"></video>`;
+  }
+  if (vids.length) {
+    $('reels').innerHTML = vids.map(v => `<div class="reel"><video muted loop playsinline preload="none" ${v.poster ? `poster="${U.esc(v.poster)}"` : ''}><source src="${U.esc(v.src)}#t=0.1" type="video/mp4"></video>
+      <div class="play"><span><svg class="ico" style="width:22px;height:22px"><use href="#i-play"/></svg></span></div>${v.titulo ? `<div class="cap">${U.esc(v.titulo)}</div>` : ''}</div>`).join('');
+    $('reels').querySelectorAll('.reel').forEach(r => {
+      const vid = r.querySelector('video');
+      r.addEventListener('click', () => {
+        if (vid.paused) { $('reels').querySelectorAll('.reel').forEach(o => { o.querySelector('video').pause(); o.classList.remove('playing'); }); vid.muted = false; vid.play(); r.classList.add('playing'); }
+        else { vid.pause(); r.classList.remove('playing'); }
+      });
+    });
+  }
+
+  U.bindWA();
+  if (window.fbq) { const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { U.track('ViewContent', { content_name: 'rubros' }); io.disconnect(); } }, { threshold: .3 }); io.observe($('rubros')); }
+  U.reveal();
+})();
+</script>
+</body>
+</html>

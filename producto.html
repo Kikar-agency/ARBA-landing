@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Producto — arba HOGAR</title>
+<meta property="og:image" content="assets/og.jpg">
+<meta name="theme-color" content="#101627">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/arba.css">
+</head>
+<body>
+<div id="hdr"></div>
+<main class="wrap" id="main">
+  <nav class="crumbs" id="crumbs"></nav>
+  <div class="pdp" id="pdp"></div>
+  <section id="rel" style="display:none;padding-bottom:100px">
+    <div class="sec-head"><div><p class="eyebrow">Seguí mirando</p><h2 style="margin-top:12px;font-size:clamp(28px,3.6vw,42px)">También te puede interesar</h2></div></div>
+    <div class="grid" id="relGrid"></div>
+  </section>
+</main>
+<div id="ftr"></div>
+
+<script src="js/config.js"></script>
+<script src="js/muestra.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async function(){
+  const U = ArbaUI, $ = (id) => document.getElementById(id), esc = U.esc;
+  const site = await U.boot();
+  if (!site.catalogoActivo) { location.replace('index.html'); return; }
+  const cat = await ArbaAPI.catalogo();
+  U.shell(site, { catalogo: true, promoBanner: cat.promos.find(p => p.banner) });
+
+  const params = new URLSearchParams(location.search);
+  const p = cat.productos.find(x => x.slug === params.get('p'));
+  if (!p) {
+    $('pdp').outerHTML = `<div class="empty-state"><p style="font-size:22px;color:var(--tinta)">Este producto ya no está en el catálogo</p>
+      <p style="margin:8px 0 22px">Puede que lo tengamos en el local.</p><a class="btn btn-line" href="catalogo.html">Ver catálogo</a></div>`;
+    return;
+  }
+  const c = cat.categorias.find(x => x.id === p.categoria_id);
+  document.title = `${p.nombre} — arba HOGAR`;
+  $('crumbs').innerHTML = `<a href="index.html">Inicio</a><span>·</span><a href="catalogo.html">Catálogo</a>${c ? `<span>·</span><a href="catalogo.html?cat=${c.slug}">${esc(c.nombre)}</a>` : ''}`;
+
+  const vars = p.variantes || [];
+  const disp = vars.filter(v => v.disponible !== false);
+  const pedirElegir = params.has('elegir') && disp.length > 1;
+  let vSel = pedirElegir ? null : (disp[0] || null);
+  let img = 0, qty = 1;
+  const imgs = p.imagenes;
+  const base = U.precioDe(p, null, cat.promos);
+  const difVar = (v) => { const pv = U.precioDe(p, v, cat.promos); return pv.mostrar && base.precio != null && pv.precio !== base.precio ? `${pv.precio > base.precio ? '+' : '−'}${U.money(Math.abs(pv.precio - base.precio))}` : ''; };
+  const hayDif = vars.some(v => difVar(v));
+
+  $('pdp').innerHTML = `
+    <div>
+      <div class="gal-main" id="galMain"></div>
+      ${imgs.length > 1 ? `<div class="gal-thumbs" id="thumbs">${imgs.map((im, i) => `<button data-i="${i}" aria-label="Foto ${i + 1}"><img src="${esc(im.url)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+    </div>
+    <div class="pdp-info">
+      ${c ? `<p class="eyebrow">${esc(c.nombre)}${p.etiqueta ? ' · ' + esc(p.etiqueta) : ''}</p>` : ''}
+      <h1>${esc(p.nombre)}</h1>
+      ${p.resumen ? `<p class="res">${esc(p.resumen)}</p>` : ''}
+      <div id="promoBox"></div>
+      <div class="price-box" id="price"></div>
+      ${vars.length ? `<div class="opt-label" id="vLbl">${pedirElegir ? 'Elegí una opción' : 'Opción'} <span id="vName"></span></div>
+        <div class="vars" id="vars">${vars.map(v => `<button class="var${v.disponible === false ? ' off' : ''}" data-id="${esc(v.id)}" ${v.disponible === false ? 'title="Sin stock por ahora"' : ''}>${v.color_hex ? `<i style="background:${esc(v.color_hex)}"></i>` : ''}${esc(v.nombre)}${hayDif && difVar(v) ? ` <em>${difVar(v)}</em>` : ''}</button>`).join('')}</div>` : ''}
+      <div class="buy" id="buy">
+        <div class="qty-box"><button type="button" id="qMinus" aria-label="Menos">−</button><span id="qN">1</span><button type="button" id="qPlus" aria-label="Más">+</button></div>
+        <button class="btn btn-wa" id="addBtn" type="button"><svg class="ico"><use href="#i-bag"/></svg>Agregar al carrito</button>
+      </div>
+      <div class="pdp-ctas">
+        <a class="btn btn-wa-green" id="waBtn" data-src="producto" data-rubro="${esc(c?.slug || '')}"><svg class="ico"><use href="#i-wa"/></svg>Consultar por WhatsApp</a>
+      </div>
+      <div class="trust">
+        <div><svg><use href="#i-store"/></svg>Retirá en el local${site.direccion ? '<br>' + esc(site.direccion.split(',')[0]) : ''}</div>
+        <div><svg><use href="#i-card"/></svg>${(site.planes || [])[0] ? `${site.planes[0].cuotas} cuotas${site.planes[0].sinInteres !== false ? ' sin interés' : ''}` : 'Pagá con tarjeta'}</div>
+        <div><svg><use href="#i-wa"/></svg>Te asesoramos<br>por WhatsApp</div>
+      </div>
+      ${p.es_muestra ? '<p class="muestra-note">Producto de muestra: el nombre, el precio y las medidas son ilustrativos.</p>' : ''}
+      <div class="acc">
+        ${p.descripcion ? `<details open><summary>Descripción</summary><div class="body">${esc(p.descripcion)}</div></details>` : ''}
+        ${p.specs.length ? `<details${p.descripcion ? '' : ' open'}><summary>Medidas y características</summary><div class="body" style="white-space:normal"><table class="specs">${p.specs.map(s => `<tr><td>${esc(s.k)}</td><td>${esc(s.v)}</td></tr>`).join('')}</table></div></details>` : ''}
+        ${site.pagosTexto ? `<details><summary>Formas de pago</summary><div class="body">${esc(site.pagosTexto)}</div></details>` : ''}
+        ${site.entregaTexto ? `<details><summary>Entrega y retiro</summary><div class="body">${esc(site.entregaTexto)}</div></details>` : ''}
+        <details><summary>Verlo en el local</summary><div class="body">${esc(site.direccion || 'Estamos en el centro de Córdoba.')}${(site.horarios || []).length ? '\n' + site.horarios.map(esc).join('\n') : ''}\nEscribinos antes y te lo dejamos listo para que lo veas.</div></details>
+      </div>
+    </div>`;
+
+  // barra fija en mobile
+  document.body.insertAdjacentHTML('beforeend', `<div class="sticky-buy" id="sticky"><div class="p"><b id="stP"></b><small id="stS"></small></div><button class="btn btn-wa" id="stAdd" type="button"><svg class="ico"><use href="#i-bag"/></svg>Agregar</button></div>`);
+  document.body.classList.add('has-sticky');
+  new IntersectionObserver(es => $('sticky').classList.toggle('show', !es[0].isIntersecting && es[0].boundingClientRect.top < 0)).observe($('buy'));
+
+  function renderGal() {
+    const im = imgs[img];
+    const prm = U.precioDe(p, vSel, cat.promos);
+    $('galMain').innerHTML = (im ? `<img src="${esc(im.url)}" alt="${esc(im.alt || p.nombre)}">` : U.vacio(c?.icono)) +
+      (prm.promo && prm.mostrar ? `<div class="badges"><span class="badge promo">${prm.promo.tipo === 'porcentaje' ? '-' + Number(prm.promo.valor) + '%' : 'Promo'}</span></div>` : '') +
+      (imgs.length > 1 ? `<button class="gal-nav prev" aria-label="Anterior"><svg class="ico"><use href="#i-chev-l"/></svg></button><button class="gal-nav next" aria-label="Siguiente"><svg class="ico"><use href="#i-chev-r"/></svg></button>` : '');
+    $('galMain').querySelector('.prev')?.addEventListener('click', () => { img = (img - 1 + imgs.length) % imgs.length; renderGal(); });
+    $('galMain').querySelector('.next')?.addEventListener('click', () => { img = (img + 1) % imgs.length; renderGal(); });
+    document.querySelectorAll('#thumbs button').forEach(b => b.classList.toggle('on', +b.dataset.i === img));
+  }
+  document.querySelectorAll('#thumbs button').forEach(b => b.onclick = () => { img = +b.dataset.i; renderGal(); });
+  let x0 = null;
+  $('galMain').addEventListener('touchstart', e => x0 = e.touches[0].clientX, { passive: true });
+  $('galMain').addEventListener('touchend', e => { if (x0 === null || imgs.length < 2) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { img = (img + (dx < 0 ? 1 : -1) + imgs.length) % imgs.length; renderGal(); } x0 = null; });
+
+  function renderPrecio() {
+    const pr = U.precioDe(p, vSel || (pedirElegir ? null : disp[0] || null), cat.promos);
+    const prShow = vSel ? pr : U.desdePrecio(p, cat.promos);
+    const cs = U.cuotas(prShow);
+    // promo con cuenta regresiva
+    const fin = U.finDe(prShow.promo);
+    $('promoBox').innerHTML = prShow.promo && prShow.mostrar ? `<div class="pdp-promo"><div><b>${esc(prShow.promo.titulo)}${prShow.promo.tipo === 'porcentaje' ? ' · ' + Number(prShow.promo.valor) + '% OFF' : ''}</b><small>${fin ? 'Termina en' : 'Por tiempo limitado'}</small></div>${fin ? '<div class="cdown" id="cdP"></div>' : ''}</div>` : '';
+    if (fin) U.countdown($('cdP'), fin);
+    $('price').innerHTML = prShow.mostrar
+      ? `<div class="main">${!vSel && prShow.varios ? '<small style="font-size:14px;color:var(--tinta-suave)">desde</small>' : ''}<b>${U.money(prShow.precio)}</b>${prShow.anterior ? `<s>${U.money(prShow.anterior)}</s>` : ''}${prShow.ahorro >= 5 ? `<span class="off">${prShow.ahorro}% menos que con tarjeta</span>` : ''}</div>
+         <div class="lbl">${esc(site.etiquetaPrecio || '')}</div>
+         ${prShow.lista || cs.length ? `<div class="opts">
+           ${prShow.lista ? `<div><span>${esc(site.etiquetaPrecioLista || 'Con tarjeta')}</span><span>${U.money(prShow.lista)}</span></div>` : ''}
+           ${cs.map((q, i) => `<div class="${i === 0 ? 'hl' : ''}"><span>${q.cuotas} cuotas${q.sinInteres ? ' sin interés' : ''}${q.nombre ? ' · ' + esc(q.nombre) : ''}</span><b>${U.money(q.monto)}</b></div>`).join('')}
+         </div>` : ''}`
+      : `<div class="main"><b style="font-size:26px;font-weight:400">Consultá el precio</b></div><div class="lbl">Te pasamos el precio actualizado por WhatsApp.</div>`;
+    if ($('vName')) $('vName').textContent = vSel ? vSel.nombre : '';
+    document.querySelectorAll('#vars .var').forEach(b => b.classList.toggle('on', vSel && b.dataset.id === String(vSel.id)));
+    $('stP').textContent = prShow.mostrar ? (!vSel && prShow.varios ? 'desde ' : '') + U.money(prShow.precio) : 'Consultá el precio';
+    $('stS').textContent = cs[0] ? U.cuotaTxt(cs[0], true) : p.nombre;
+    const precioTxt = pr.mostrar && vSel !== null ? ` (${U.money(pr.precio)})` : '';
+    U.rebindWA($('waBtn'), `Hola! Vi en la web de arba HOGAR el ${p.nombre}${vSel ? ' — ' + vSel.nombre : ''}${precioTxt} y quiero consultar.\n${location.href.split('&')[0]}`);
+  }
+  document.querySelectorAll('#vars .var').forEach(b => b.onclick = () => {
+    const v = vars.find(x => String(x.id) === b.dataset.id);
+    if (v.disponible === false) { U.toast('Esa opción no está disponible por ahora. Consultanos por WhatsApp.'); return; }
+    vSel = v; $('vLbl').classList.remove('warn'); $('vLbl').firstChild.textContent = 'Opción '; renderPrecio();
+  });
+  $('qMinus').onclick = () => { qty = Math.max(1, qty - 1); $('qN').textContent = qty; };
+  $('qPlus').onclick = () => { qty = Math.min(20, qty + 1); $('qN').textContent = qty; };
+  function agregar() {
+    if (vars.length && !vSel) {
+      if (!disp.length) { U.toast('Sin stock por ahora. Consultanos por WhatsApp.'); return; }
+      $('vLbl').classList.add('warn'); $('vLbl').firstChild.textContent = 'Elegí una opción ';
+      $('vars').scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
+    }
+    U.carrito.add(U.itemDe(p, vSel, cat.promos, c), qty);
+  }
+  $('addBtn').onclick = agregar; $('stAdd').onclick = agregar;
+
+  renderGal(); renderPrecio();
+  U.track('ViewContent', { content_name: p.nombre, content_category: c?.slug, content_ids: [p.id], content_type: 'product', value: base.precio || 0, currency: 'ARS' });
+
+  const rel = cat.productos.filter(x => x.id !== p.id && x.categoria_id === p.categoria_id).concat(cat.productos.filter(x => x.id !== p.id && x.categoria_id !== p.categoria_id && x.destacado)).slice(0, 4);
+  if (rel.length) { $('rel').style.display = ''; const byId = Object.fromEntries(cat.categorias.map(k => [k.id, k])); $('relGrid').innerHTML = rel.map(x => U.card(x, byId[x.categoria_id], cat.promos)).join(''); U.bindQuick($('relGrid'), cat); }
+})();
+</script>
+</body>
+</html>

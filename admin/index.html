@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel — arba HOGAR</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<section id="login" class="login" hidden>
+  <form class="login-card" id="loginForm">
+    <div class="login-logo" data-logo></div>
+    <h1>Panel de administración</h1>
+    <div id="demoNote" class="note" hidden>Modo demo: todavía no está conectada la base de datos. Lo que cargues se guarda solo en este navegador.</div>
+    <label data-real>Email<input type="email" name="email" autocomplete="username"></label>
+    <label data-real>Contraseña<input type="password" name="password" autocomplete="current-password"></label>
+    <button class="b b-primary" type="submit" id="loginBtn">Entrar</button>
+    <p class="err" id="loginErr"></p>
+  </form>
+</section>
+
+<!-- APP -->
+<div id="app" class="app" hidden>
+  <aside class="side">
+    <div class="side-logo" data-logo></div>
+    <nav id="tabs">
+      <button data-tab="productos" class="on">Productos</button>
+      <button data-tab="promos">Promociones</button>
+      <button data-tab="categorias">Categorías</button>
+      <button data-tab="config">Configuración</button>
+    </nav>
+    <div class="side-foot">
+      <a href="../index.html" target="_blank" class="b b-ghost">Ver la web ↗</a>
+      <span id="userEmail" class="muted"></span>
+      <button class="b b-link" id="logout">Salir</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div id="demoBar" class="demo-bar" hidden>
+      Modo demo · los cambios se guardan solo en este navegador.
+      <button class="b b-link" id="resetDemo">Volver a los datos de muestra</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/config.js"></script>
+<script src="../js/muestra.js"></script>
+<script>
+  // supabase-js solo si hay conexión configurada
+  if (window.ARBA_CFG.supabaseUrl && window.ARBA_CFG.supabaseAnonKey)
+    document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"><\/script>');
+</script>
+<script src="../js/api.js"></script>
+<script src="../js/ui.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
