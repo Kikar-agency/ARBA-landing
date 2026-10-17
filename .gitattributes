@@ -1,0 +1,6 @@
+# Saltos de línea siempre LF (evita el aviso LF/CRLF en Windows)
+* text=auto eol=lf
+*.mp4 binary
+*.webp binary
+*.jpg binary
+*.png binary
