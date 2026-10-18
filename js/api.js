@@ -227,8 +227,8 @@
     async config() {
       if (!_cfg) _cfg = B.config().catch(() => ({})).then(c => {
         const site = { ...CFG.sitio, ...c };
-        // Vista previa del catálogo en modo demo: abrir cualquier página con ?demo=1
-        if (DEMO) {
+        // Vista previa del catálogo: abrir cualquier página con ?demo=1 (queda prendido en esa pestaña)
+        {
           try {
             if (new URLSearchParams(location.search).has('demo')) sessionStorage.setItem('arba_preview', '1');
             if (sessionStorage.getItem('arba_preview')) site.catalogoActivo = true;

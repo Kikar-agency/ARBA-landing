@@ -6,8 +6,8 @@ window.ARBA_CFG = {
   // 1) Conexión a Supabase (Project Settings → API).
   //    Si quedan vacíos, la web funciona en MODO DEMO con productos
   //    de muestra y el panel guarda solo en el navegador.
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  supabaseUrl: 'https://zrngilhzcdsgsigzttpz.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpybmdpbGh6Y2RzZ3NpZ3p0dHB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyODExOTAsImV4cCI6MjEwNzg1NzE5MH0.y-DTlyyVl2e5ZythC7fMOZSec6lXsw--GaVX1H9JhcY',
 
   // 2) Valores por defecto del sitio. Una vez conectado Supabase,
   //    todo esto se edita desde el panel (Configuración) y lo que
