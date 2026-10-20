@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/arba.css?v=20261018a">
+<link rel="stylesheet" href="css/arba.css?v=20261020a">
 </head>
 <body>
 <div id="hdr"></div>
@@ -24,10 +24,10 @@
 </main>
 <div id="ftr"></div>
 
-<script src="js/config.js?v=20261018a"></script>
-<script src="js/muestra.js?v=20261018a"></script>
-<script src="js/api.js?v=20261018a"></script>
-<script src="js/ui.js?v=20261018a"></script>
+<script src="js/config.js?v=20261020a"></script>
+<script src="js/muestra.js?v=20261020a"></script>
+<script src="js/api.js?v=20261020a"></script>
+<script src="js/ui.js?v=20261020a"></script>
 <script>
 (async function(){
   const U = ArbaUI, $ = (id) => document.getElementById(id), esc = U.esc;
@@ -82,7 +82,7 @@
         <div><svg><use href="#i-card"/></svg>${(site.planes || [])[0] ? `${site.planes[0].cuotas} cuotas${site.planes[0].sinInteres !== false ? ' sin interés' : ''}` : 'Pagá con tarjeta'}</div>
         <div><svg><use href="#i-wa"/></svg>Te asesoramos<br>por WhatsApp</div>
       </div>
-      ${p.es_muestra ? '<p class="muestra-note">Producto de muestra: el nombre, el precio y las medidas son ilustrativos.</p>' : ''}
+      ${p.es_muestra ? '<p class="muestra-note">Producto de muestra: el precio es de referencia. Consultanos el valor actualizado.</p>' : ''}
       <div class="acc">
         ${p.descripcion ? `<details open><summary>Descripción</summary><div class="body">${esc(p.descripcion)}</div></details>` : ''}
         ${p.specs.length ? `<details${p.descripcion ? '' : ' open'}><summary>Medidas y características</summary><div class="body" style="white-space:normal"><table class="specs">${p.specs.map(s => `<tr><td>${esc(s.k)}</td><td>${esc(s.v)}</td></tr>`).join('')}</table></div></details>` : ''}
