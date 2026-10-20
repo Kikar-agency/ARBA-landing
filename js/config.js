@@ -19,7 +19,7 @@ window.ARBA_CFG = {
     horarios: ['Lunes a viernes · 9:30 a 18 h', 'Sábados · 9:30 a 14 h'],
     instagram: 'https://www.instagram.com/arbahogar/',
     facebook: 'https://www.facebook.com/profile.php?id=61580840611386',
-    metaPixelId: '',
+    metaPixelId: '1700647924744545',
     catalogoActivo: false,                  // false = solo landing. Se prende desde el panel cuando estén cargados los productos reales
     pagosTexto: 'Efectivo, transferencia y tarjetas. 12 cuotas sin interés con Naranja. Consultanos por otros planes vigentes.',  // vacío = no se muestra
     entregaTexto: '',
