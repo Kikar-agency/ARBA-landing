@@ -220,36 +220,6 @@
 
   const B = DEMO ? Local : Supa;
 
-  // ───────────────────────── Fotos A / B ──────────────────────
-  // ?fotos=a o ?fotos=b fija el juego en esa pestaña; si no, manda la config "fotosSet" (por defecto A)
-  function previewOn() { try { return !!sessionStorage.getItem('arba_preview'); } catch (e) { return false; } }
-  function setFotos(site) {
-    try {
-      const q = new URLSearchParams(location.search).get('fotos');
-      if (q === 'a' || q === 'b') sessionStorage.setItem('arba_fotos', q);
-      const s = sessionStorage.getItem('arba_fotos');
-      if (s === 'a' || s === 'b') return s;
-    } catch (e) {}
-    return String(site.fotosSet || 'a').toLowerCase() === 'b' ? 'b' : 'a';
-  }
-  function selectorFotos(actual) {
-    const pintar = () => {
-      if (document.getElementById('fotosAB')) return;
-      const d = document.createElement('div');
-      d.id = 'fotosAB';
-      d.setAttribute('style', 'position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9999;display:flex;align-items:center;gap:6px;padding:6px 6px 6px 14px;border-radius:999px;background:#101627;color:#FAF6ED;font:500 13px Outfit,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)');
-      const btn = (k, t) => `<button type="button" data-f="${k}" style="border:0;cursor:pointer;border-radius:999px;padding:8px 12px;font:inherit;${k === actual ? 'background:#C9B79F;color:#101627' : 'background:transparent;color:#FAF6ED'}">${t}</button>`;
-      d.innerHTML = '<span style="opacity:.75">Fotos</span>' + btn('a', 'A · Local') + btn('b', 'B · Living');
-      d.addEventListener('click', e => {
-        const k = e.target.closest('[data-f]')?.dataset.f; if (!k || k === actual) return;
-        try { sessionStorage.setItem('arba_fotos', k); } catch (err) {}
-        const u = new URL(location.href); u.searchParams.set('fotos', k); location.href = u.toString();
-      });
-      document.body.appendChild(d);
-    };
-    if (document.body) pintar(); else document.addEventListener('DOMContentLoaded', pintar);
-  }
-
   // ───────────────────────── API pública ───────────────────────
   let _cat = null, _cfg = null;
   window.ArbaAPI = {
@@ -264,26 +234,11 @@
             if (sessionStorage.getItem('arba_preview')) site.catalogoActivo = true;
           } catch (e) {}
         }
-        site.fotosSet = setFotos(site);
-        if (previewOn()) selectorFotos(site.fotosSet);
         return site;
       });
       return _cfg;
     },
-    async catalogo() {
-      if (!_cat) _cat = Promise.all([B.catalogo(), this.config()]).then(([c, site]) => {
-        // Fotos A (espacio original) / B (living): se muestra un solo juego por producto
-        const re = /\/productos\/([ab])\//;
-        c.productos.forEach(p => {
-          const imgs = p.imagenes || [];
-          if (!imgs.some(i => re.test(i.url))) return;
-          const elegidas = imgs.filter(i => { const m = i.url.match(re); return !m || m[1] === site.fotosSet; });
-          if (elegidas.length) p.imagenes = elegidas;
-        });
-        return c;
-      });
-      return _cat;
-    },
+    async catalogo() { if (!_cat) _cat = B.catalogo(); return _cat; },
     async producto(slug) { const c = await this.catalogo(); return c.productos.find(p => p.slug === slug) || null; },
   };
   window.ArbaAdminAPI = { DEMO, ...B, catalogo: () => B.catalogo({ todo: true }), configRaw: () => B.config() };

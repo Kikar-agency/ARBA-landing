@@ -1,18 +1,14 @@
 -- ═══════════════════════════════════════════════════════════════
---  arba HOGAR — Productos reales (tanda 1: 12 productos con fotos)
+--  arba HOGAR — Productos reales (15 productos con fotos)
 --  · Borra los productos de muestra
---  · Carga productos, variantes y fotos (sillones con juego A y B)
+--  · Carga productos, variantes y fotos (sillones: fotos A y B intercaladas en la galería)
 --  · Precios vacíos = "Consultá el precio" hasta cargarlos en el panel
---  · fotosSet: 'a' = espacio original, 'b' = living. Se cambia con:
---      update public.config set value = '"b"' where key = 'fotosSet';
 --  Se puede correr más de una vez.
 -- ═══════════════════════════════════════════════════════════════
 begin;
 
 delete from public.productos where es_muestra;
 
-insert into public.config (key, value) values ('fotosSet', '"a"'::jsonb)
-on conflict (key) do nothing;
 
 -- Sillón Julieta
 insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
@@ -27,14 +23,14 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/julieta-01.webp', 'Sillón Julieta · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/julieta-02.webp', 'Sillón Julieta · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/julieta-03.webp', 'Sillón Julieta · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/julieta-04.webp', 'Sillón Julieta · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/julieta-01.webp', 'Sillón Julieta · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/julieta-02.webp', 'Sillón Julieta · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/julieta-03.webp', 'Sillón Julieta · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/julieta-04.webp', 'Sillón Julieta · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/julieta-01.webp', 'Sillón Julieta', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/julieta-01.webp', 'Sillón Julieta', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/julieta-02.webp', 'Sillón Julieta', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/julieta-02.webp', 'Sillón Julieta', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/julieta-03.webp', 'Sillón Julieta', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/julieta-03.webp', 'Sillón Julieta', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/julieta-04.webp', 'Sillón Julieta', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/julieta-04.webp', 'Sillón Julieta', 7)) as v(url, alt, orden)
 where p.slug = 'julieta';
 
 -- Sillón esquinero Carol
@@ -57,22 +53,22 @@ where p.slug = 'carol';
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/carol-01.webp', 'Sillón esquinero Carol · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-02.webp', 'Sillón esquinero Carol · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-03.webp', 'Sillón esquinero Carol · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-04.webp', 'Sillón esquinero Carol · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-05.webp', 'Sillón esquinero Carol · foto A', 4),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-06.webp', 'Sillón esquinero Carol · foto A', 5),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-07.webp', 'Sillón esquinero Carol · foto A', 6),
-  ('https://arbahogar.com.ar/assets/productos/a/carol-08.webp', 'Sillón esquinero Carol · foto A', 7),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-01.webp', 'Sillón esquinero Carol · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-02.webp', 'Sillón esquinero Carol · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-03.webp', 'Sillón esquinero Carol · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-04.webp', 'Sillón esquinero Carol · foto B', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-05.webp', 'Sillón esquinero Carol · foto B', 4),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-06.webp', 'Sillón esquinero Carol · foto B', 5),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-07.webp', 'Sillón esquinero Carol · foto B', 6),
-  ('https://arbahogar.com.ar/assets/productos/b/carol-08.webp', 'Sillón esquinero Carol · foto B', 7)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/carol-01.webp', 'Sillón esquinero Carol · 2,50 m', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-01.webp', 'Sillón esquinero Carol · 2,50 m', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-02.webp', 'Sillón esquinero Carol · 2,50 m', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-02.webp', 'Sillón esquinero Carol · 2,50 m', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-03.webp', 'Sillón esquinero Carol · 2,17 m', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-03.webp', 'Sillón esquinero Carol · 2,17 m', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-04.webp', 'Sillón esquinero Carol · 2,17 m', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-04.webp', 'Sillón esquinero Carol · 2,17 m', 7),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-05.webp', 'Sillón esquinero Carol · 2,50 m', 8),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-05.webp', 'Sillón esquinero Carol · 2,50 m', 9),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-06.webp', 'Sillón esquinero Carol · 2,50 m', 10),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-06.webp', 'Sillón esquinero Carol · 2,50 m', 11),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-07.webp', 'Sillón esquinero Carol · 2,17 m', 12),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-07.webp', 'Sillón esquinero Carol · 2,17 m', 13),
+  ('https://arbahogar.com.ar/assets/productos/a/carol-08.webp', 'Sillón esquinero Carol · 2,17 m', 14),
+  ('https://arbahogar.com.ar/assets/productos/b/carol-08.webp', 'Sillón esquinero Carol · 2,17 m', 15)) as v(url, alt, orden)
 where p.slug = 'carol';
 
 -- Sillón esquinero Aron
@@ -88,14 +84,14 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/aron-01.webp', 'Sillón esquinero Aron · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/aron-02.webp', 'Sillón esquinero Aron · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/aron-03.webp', 'Sillón esquinero Aron · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/aron-04.webp', 'Sillón esquinero Aron · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/aron-01.webp', 'Sillón esquinero Aron · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/aron-02.webp', 'Sillón esquinero Aron · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/aron-03.webp', 'Sillón esquinero Aron · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/aron-04.webp', 'Sillón esquinero Aron · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/aron-01.webp', 'Sillón esquinero Aron', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/aron-01.webp', 'Sillón esquinero Aron', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/aron-02.webp', 'Sillón esquinero Aron', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/aron-02.webp', 'Sillón esquinero Aron', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/aron-03.webp', 'Sillón esquinero Aron', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/aron-03.webp', 'Sillón esquinero Aron', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/aron-04.webp', 'Sillón esquinero Aron', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/aron-04.webp', 'Sillón esquinero Aron', 7)) as v(url, alt, orden)
 where p.slug = 'aron';
 
 -- Sillón Ameli
@@ -111,14 +107,14 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/ameli-01.webp', 'Sillón Ameli · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/ameli-02.webp', 'Sillón Ameli · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/ameli-03.webp', 'Sillón Ameli · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/ameli-04.webp', 'Sillón Ameli · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/ameli-01.webp', 'Sillón Ameli · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/ameli-02.webp', 'Sillón Ameli · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/ameli-03.webp', 'Sillón Ameli · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/ameli-04.webp', 'Sillón Ameli · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/ameli-01.webp', 'Sillón Ameli', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/ameli-01.webp', 'Sillón Ameli', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/ameli-02.webp', 'Sillón Ameli', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/ameli-02.webp', 'Sillón Ameli', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/ameli-03.webp', 'Sillón Ameli', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/ameli-03.webp', 'Sillón Ameli', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/ameli-04.webp', 'Sillón Ameli', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/ameli-04.webp', 'Sillón Ameli', 7)) as v(url, alt, orden)
 where p.slug = 'ameli';
 
 -- Sillón Justina
@@ -134,14 +130,14 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/justina-01.webp', 'Sillón Justina · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/justina-02.webp', 'Sillón Justina · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/justina-03.webp', 'Sillón Justina · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/justina-04.webp', 'Sillón Justina · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/justina-01.webp', 'Sillón Justina · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/justina-02.webp', 'Sillón Justina · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/justina-03.webp', 'Sillón Justina · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/justina-04.webp', 'Sillón Justina · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/justina-01.webp', 'Sillón Justina', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/justina-01.webp', 'Sillón Justina', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/justina-02.webp', 'Sillón Justina', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/justina-02.webp', 'Sillón Justina', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/justina-03.webp', 'Sillón Justina', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/justina-03.webp', 'Sillón Justina', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/justina-04.webp', 'Sillón Justina', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/justina-04.webp', 'Sillón Justina', 7)) as v(url, alt, orden)
 where p.slug = 'justina';
 
 -- Sillón Berlín
@@ -157,14 +153,14 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-01.webp', 'Sillón Berlín · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-02.webp', 'Sillón Berlín · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-03.webp', 'Sillón Berlín · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-04.webp', 'Sillón Berlín · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-01.webp', 'Sillón Berlín · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-02.webp', 'Sillón Berlín · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-03.webp', 'Sillón Berlín · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-04.webp', 'Sillón Berlín · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-01.webp', 'Sillón Berlín', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-01.webp', 'Sillón Berlín', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-02.webp', 'Sillón Berlín', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-02.webp', 'Sillón Berlín', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-03.webp', 'Sillón Berlín', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-03.webp', 'Sillón Berlín', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-04.webp', 'Sillón Berlín', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-04.webp', 'Sillón Berlín', 7)) as v(url, alt, orden)
 where p.slug = 'berlin';
 
 -- Sillón esquinero Berlín XL
@@ -180,20 +176,43 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-01.webp', 'Sillón esquinero Berlín XL · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-02.webp', 'Sillón esquinero Berlín XL · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-03.webp', 'Sillón esquinero Berlín XL · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-04.webp', 'Sillón esquinero Berlín XL · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-01.webp', 'Sillón esquinero Berlín XL · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-02.webp', 'Sillón esquinero Berlín XL · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-03.webp', 'Sillón esquinero Berlín XL · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-04.webp', 'Sillón esquinero Berlín XL · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-01.webp', 'Sillón esquinero Berlín XL', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-01.webp', 'Sillón esquinero Berlín XL', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-02.webp', 'Sillón esquinero Berlín XL', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-02.webp', 'Sillón esquinero Berlín XL', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-03.webp', 'Sillón esquinero Berlín XL', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-03.webp', 'Sillón esquinero Berlín XL', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/berlin-xl-04.webp', 'Sillón esquinero Berlín XL', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/berlin-xl-04.webp', 'Sillón esquinero Berlín XL', 7)) as v(url, alt, orden)
 where p.slug = 'berlin-xl';
+
+-- Sillón Franchezca
+insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
+select 'franchezca', 'Sillón Franchezca', c.id, 'Doble o esquinero con chaise', 'Sillón de brazos rectos y almohadones de respaldo sueltos, simple y cómodo. Viene en versión doble (2 cuerpos) o esquinera con chaise, para aprovechar el rincón del living. Tela y color a elección.', null, null, true,
+  '[{"k": "Versiones", "v": "Doble (2 cuerpos) o esquinero con chaise"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, false, true, false, 8, ''
+from public.categorias c where c.slug = 'sillones'
+on conflict (slug) do update set nombre = excluded.nombre, categoria_id = excluded.categoria_id, resumen = excluded.resumen,
+  descripcion = excluded.descripcion, specs = excluded.specs, destacado = excluded.destacado, publicado = true,
+  es_muestra = false, orden = excluded.orden, etiqueta = excluded.etiqueta;
+delete from public.variantes where producto_id = (select id from public.productos where slug = 'franchezca');
+delete from public.imagenes  where producto_id = (select id from public.productos where slug = 'franchezca');
+insert into public.variantes (producto_id, nombre, orden, disponible)
+select p.id, v.nombre, v.orden, true from public.productos p,
+ (values
+  ('Doble (2 cuerpos)', 0),
+  ('Esquinero con chaise', 1)) as v(nombre, orden)
+where p.slug = 'franchezca';
+insert into public.imagenes (producto_id, url, alt, orden)
+select p.id, v.url, v.alt, v.orden from public.productos p,
+ (values
+  ('https://arbahogar.com.ar/assets/productos/franchezca-01.webp', 'Sillón Franchezca · Esquinero', 0),
+  ('https://arbahogar.com.ar/assets/productos/franchezca-02.webp', 'Sillón Franchezca · Doble', 1)) as v(url, alt, orden)
+where p.slug = 'franchezca';
 
 -- Sillón Modular
 insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
-select 'modular', 'Sillón Modular', c.id, '2 o 5 cuerpos · Armalo a tu medida', 'Sillón modular que podés armar en 2 o en 5 cuerpos según el espacio que tengas. Almohadones de respaldo sueltos, brazos rectos y patas de madera. En las fotos, la versión de 2 cuerpos. Tela y color a elección.', null, null, true,
-  '[{"k": "Cuerpos", "v": "2 o 5"}, {"k": "Patas", "v": "Madera"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, false, true, false, 8, ''
+select 'modular', 'Sillón Modular', c.id, '2 o 5 cuerpos · Armalo a tu medida', 'Sillón modular de líneas rectas, con almohadones de respaldo sueltos y costuras con vivo. Se arma en 2 cuerpos o en 5 cuerpos (en U, con dos módulos chaise), según el espacio que tengas. Tela y color a elección.', null, null, true,
+  '[{"k": "Cuerpos", "v": "2 o 5"}, {"k": "Terminación", "v": "Costuras con vivo"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, false, true, false, 9, ''
 from public.categorias c where c.slug = 'sillones'
 on conflict (slug) do update set nombre = excluded.nombre, categoria_id = excluded.categoria_id, resumen = excluded.resumen,
   descripcion = excluded.descripcion, specs = excluded.specs, destacado = excluded.destacado, publicado = true,
@@ -209,20 +228,38 @@ where p.slug = 'modular';
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/modular-01.webp', 'Sillón Modular · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/modular-02.webp', 'Sillón Modular · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/modular-03.webp', 'Sillón Modular · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/modular-04.webp', 'Sillón Modular · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/modular-01.webp', 'Sillón Modular · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/modular-02.webp', 'Sillón Modular · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/modular-03.webp', 'Sillón Modular · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/modular-04.webp', 'Sillón Modular · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/modular-01.webp', 'Sillón Modular · 2 cuerpos', 0),
+  ('https://arbahogar.com.ar/assets/productos/modular-02.webp', 'Sillón Modular · 5 cuerpos', 1),
+  ('https://arbahogar.com.ar/assets/productos/modular-03.webp', 'Sillón Modular', 2)) as v(url, alt, orden)
 where p.slug = 'modular';
+
+-- Sillón Modular Doble
+insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
+select 'modular-doble', 'Sillón Modular Doble', c.id, 'Con puff · Patas de madera', 'Sillón de dos cuerpos con puff a juego, almohadones de respaldo sueltos, brazos rectos y patas de madera. Tela y color a elección.', null, null, true,
+  '[{"k": "Incluye", "v": "Sillón + puff"}, {"k": "Patas", "v": "Madera"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, false, true, false, 10, ''
+from public.categorias c where c.slug = 'sillones'
+on conflict (slug) do update set nombre = excluded.nombre, categoria_id = excluded.categoria_id, resumen = excluded.resumen,
+  descripcion = excluded.descripcion, specs = excluded.specs, destacado = excluded.destacado, publicado = true,
+  es_muestra = false, orden = excluded.orden, etiqueta = excluded.etiqueta;
+delete from public.variantes where producto_id = (select id from public.productos where slug = 'modular-doble');
+delete from public.imagenes  where producto_id = (select id from public.productos where slug = 'modular-doble');
+insert into public.imagenes (producto_id, url, alt, orden)
+select p.id, v.url, v.alt, v.orden from public.productos p,
+ (values
+  ('https://arbahogar.com.ar/assets/productos/a/modular-doble-01.webp', 'Sillón Modular Doble', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/modular-doble-01.webp', 'Sillón Modular Doble', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/modular-doble-02.webp', 'Sillón Modular Doble', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/modular-doble-02.webp', 'Sillón Modular Doble', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/modular-doble-03.webp', 'Sillón Modular Doble', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/modular-doble-03.webp', 'Sillón Modular Doble', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/modular-doble-04.webp', 'Sillón Modular Doble', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/modular-doble-04.webp', 'Sillón Modular Doble', 7)) as v(url, alt, orden)
+where p.slug = 'modular-doble';
 
 -- Sofá cama Plus
 insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
 select 'sofa-cama-plus', 'Sofá cama Plus', c.id, '1,60 m · Se abre en cama', 'Sofá de día y cama de noche: se abre y queda una cama amplia para las visitas o para el monoambiente. Almohadones de respaldo sueltos y brazos rectos. Mide 1,60 m y lo hacemos en la tela y el color que elijas.', null, null, true,
-  '[{"k": "Medida", "v": "1,60 m"}, {"k": "Sistema", "v": "Se abre en cama"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, true, true, false, 9, ''
+  '[{"k": "Medida", "v": "1,60 m"}, {"k": "Sistema", "v": "Se abre en cama"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, true, true, false, 11, ''
 from public.categorias c where c.slug = 'sillones'
 on conflict (slug) do update set nombre = excluded.nombre, categoria_id = excluded.categoria_id, resumen = excluded.resumen,
   descripcion = excluded.descripcion, specs = excluded.specs, destacado = excluded.destacado, publicado = true,
@@ -232,15 +269,41 @@ delete from public.imagenes  where producto_id = (select id from public.producto
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-01.webp', 'Sofá cama Plus · foto A', 0),
-  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-02.webp', 'Sofá cama Plus · foto A', 1),
-  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-03.webp', 'Sofá cama Plus · foto A', 2),
-  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-04.webp', 'Sofá cama Plus · foto A', 3),
-  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-01.webp', 'Sofá cama Plus · foto B', 0),
-  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-02.webp', 'Sofá cama Plus · foto B', 1),
-  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-03.webp', 'Sofá cama Plus · foto B', 2),
-  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-04.webp', 'Sofá cama Plus · foto B', 3)) as v(url, alt, orden)
+  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-01.webp', 'Sofá cama Plus', 0),
+  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-01.webp', 'Sofá cama Plus', 1),
+  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-02.webp', 'Sofá cama Plus', 2),
+  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-02.webp', 'Sofá cama Plus', 3),
+  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-03.webp', 'Sofá cama Plus', 4),
+  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-03.webp', 'Sofá cama Plus', 5),
+  ('https://arbahogar.com.ar/assets/productos/a/sofa-cama-plus-04.webp', 'Sofá cama Plus', 6),
+  ('https://arbahogar.com.ar/assets/productos/b/sofa-cama-plus-04.webp', 'Sofá cama Plus', 7)) as v(url, alt, orden)
 where p.slug = 'sofa-cama-plus';
+
+-- Sofá cama Lenny
+insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
+select 'sofa-cama-lenny', 'Sofá cama Lenny', c.id, '1,00 / 1,40 / 1,70 m · Capitoné', 'Sofá cama con asiento y respaldo capitoné que se abre en un solo movimiento y queda como cama tapizada completa. Tres medidas: 1,00, 1,40 y 1,70 m. En las fotos, el de 1,40 m en negro y el de 1,70 m en azul. Tela y color a elección.', null, null, true,
+  '[{"k": "Medidas", "v": "1,00 m · 1,40 m · 1,70 m"}, {"k": "Sistema", "v": "Se abre en cama"}, {"k": "Tela", "v": "A elección (consultanos el muestrario)"}, {"k": "Color", "v": "A elección"}]'::jsonb, false, true, false, 12, ''
+from public.categorias c where c.slug = 'sillones'
+on conflict (slug) do update set nombre = excluded.nombre, categoria_id = excluded.categoria_id, resumen = excluded.resumen,
+  descripcion = excluded.descripcion, specs = excluded.specs, destacado = excluded.destacado, publicado = true,
+  es_muestra = false, orden = excluded.orden, etiqueta = excluded.etiqueta;
+delete from public.variantes where producto_id = (select id from public.productos where slug = 'sofa-cama-lenny');
+delete from public.imagenes  where producto_id = (select id from public.productos where slug = 'sofa-cama-lenny');
+insert into public.variantes (producto_id, nombre, orden, disponible)
+select p.id, v.nombre, v.orden, true from public.productos p,
+ (values
+  ('1,00 m', 0),
+  ('1,40 m', 1),
+  ('1,70 m', 2)) as v(nombre, orden)
+where p.slug = 'sofa-cama-lenny';
+insert into public.imagenes (producto_id, url, alt, orden)
+select p.id, v.url, v.alt, v.orden from public.productos p,
+ (values
+  ('https://arbahogar.com.ar/assets/productos/lenny-01.webp', 'Sofá cama Lenny · 1,40 m', 0),
+  ('https://arbahogar.com.ar/assets/productos/lenny-02.webp', 'Sofá cama Lenny · 1,40 m', 1),
+  ('https://arbahogar.com.ar/assets/productos/lenny-03.webp', 'Sofá cama Lenny · 1,70 m', 2),
+  ('https://arbahogar.com.ar/assets/productos/lenny-04.webp', 'Sofá cama Lenny · 1,70 m', 3)) as v(url, alt, orden)
+where p.slug = 'sofa-cama-lenny';
 
 -- Juego de comedor Germán
 insert into public.productos (slug, nombre, categoria_id, resumen, descripcion, precio, precio_lista, mostrar_precio, specs, destacado, publicado, es_muestra, orden, etiqueta)
@@ -265,8 +328,8 @@ where p.slug = 'juego-comedor-german';
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/german-01.webp', 'Juego de comedor Germán', 0),
-  ('https://arbahogar.com.ar/assets/productos/german-02.webp', 'Juego de comedor Germán', 1),
+  ('https://arbahogar.com.ar/assets/productos/german-01.webp', 'Juego de comedor Germán · 4 sillas', 0),
+  ('https://arbahogar.com.ar/assets/productos/german-02.webp', 'Juego de comedor Germán · 6 sillas', 1),
   ('https://arbahogar.com.ar/assets/productos/german-03.webp', 'Juego de comedor Germán', 2),
   ('https://arbahogar.com.ar/assets/productos/german-04.webp', 'Juego de comedor Germán', 3),
   ('https://arbahogar.com.ar/assets/productos/german-05.webp', 'Juego de comedor Germán', 4)) as v(url, alt, orden)
@@ -292,7 +355,7 @@ where p.slug = 'mesa-mdf-con-sillas';
 insert into public.imagenes (producto_id, url, alt, orden)
 select p.id, v.url, v.alt, v.orden from public.productos p,
  (values
-  ('https://arbahogar.com.ar/assets/productos/mesa-mdf-lis-01.webp', 'Juego de comedor Lis (mesa MDF)', 0),
+  ('https://arbahogar.com.ar/assets/productos/mesa-mdf-lis-01.webp', 'Juego de comedor Lis (mesa MDF) · lisas', 0),
   ('https://arbahogar.com.ar/assets/productos/mesa-mdf-lis-02.webp', 'Juego de comedor Lis (mesa MDF)', 1),
   ('https://arbahogar.com.ar/assets/productos/mesa-mdf-lis-03.webp', 'Juego de comedor Lis (mesa MDF)', 2),
   ('https://arbahogar.com.ar/assets/productos/mesa-mdf-lis-04.webp', 'Juego de comedor Lis (mesa MDF)', 3)) as v(url, alt, orden)

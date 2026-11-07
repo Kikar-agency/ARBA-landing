@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/arba.css?v=20261106a">
+<link rel="stylesheet" href="css/arba.css?v=20261107a">
 </head>
 <body>
 <div id="hdr"></div>
@@ -24,10 +24,10 @@
 </main>
 <div id="ftr"></div>
 
-<script src="js/config.js?v=20261106a"></script>
-<script src="js/muestra.js?v=20261106a"></script>
-<script src="js/api.js?v=20261106a"></script>
-<script src="js/ui.js?v=20261106a"></script>
+<script src="js/config.js?v=20261107a"></script>
+<script src="js/muestra.js?v=20261107a"></script>
+<script src="js/api.js?v=20261107a"></script>
+<script src="js/ui.js?v=20261107a"></script>
 <script>
 (async function(){
   const U = ArbaUI, $ = (id) => document.getElementById(id), esc = U.esc;
@@ -50,9 +50,11 @@
   const vars = p.variantes || [];
   const disp = vars.filter(v => v.disponible !== false);
   const pedirElegir = params.has('elegir') && disp.length > 1;
-  let vSel = pedirElegir ? null : (disp[0] || null);
+  const vUrl = params.get('v') && disp.find(v => String(v.id) === params.get('v'));
+  let vSel = vUrl || (pedirElegir ? null : (disp[0] || null));
   let img = 0, qty = 1;
   const imgs = p.imagenes;
+  if (vUrl) img = Math.max(0, U.fotoDeVariante(imgs, vUrl));
   const base = U.precioDe(p, null, cat.promos);
   const difVar = (v) => { const pv = U.precioDe(p, v, cat.promos); return pv.mostrar && base.precio != null && pv.precio !== base.precio ? `${pv.precio > base.precio ? '+' : '−'}${U.money(Math.abs(pv.precio - base.precio))}` : ''; };
   const hayDif = vars.some(v => difVar(v));
@@ -139,6 +141,8 @@
     const v = vars.find(x => String(x.id) === b.dataset.id);
     if (v.disponible === false) { U.toast('Esa opción no está disponible por ahora. Consultanos por WhatsApp.'); return; }
     vSel = v; $('vLbl').classList.remove('warn'); $('vLbl').firstChild.textContent = 'Opción '; renderPrecio();
+    const k = U.fotoDeVariante(imgs, v); if (k >= 0 && k !== img) { img = k; renderGal(); }
+    history.replaceState(null, '', `${location.pathname}?p=${encodeURIComponent(p.slug)}&v=${encodeURIComponent(v.id)}`);
   });
   $('qMinus').onclick = () => { qty = Math.max(1, qty - 1); $('qN').textContent = qty; };
   $('qPlus').onclick = () => { qty = Math.min(20, qty + 1); $('qN').textContent = qty; };

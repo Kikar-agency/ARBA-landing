@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/arba.css?v=20261106a">
+<link rel="stylesheet" href="css/arba.css?v=20261107a">
 </head>
 <body>
 <div id="hdr"></div>
@@ -42,10 +42,10 @@
 </main>
 <div id="ftr"></div>
 
-<script src="js/config.js?v=20261106a"></script>
-<script src="js/muestra.js?v=20261106a"></script>
-<script src="js/api.js?v=20261106a"></script>
-<script src="js/ui.js?v=20261106a"></script>
+<script src="js/config.js?v=20261107a"></script>
+<script src="js/muestra.js?v=20261107a"></script>
+<script src="js/api.js?v=20261107a"></script>
+<script src="js/ui.js?v=20261107a"></script>
 <script>
 (async function(){
   const U = ArbaUI, $ = (id) => document.getElementById(id);
@@ -86,10 +86,10 @@
     $('pills').querySelectorAll('.pill[data-c]').forEach(b => b.onclick = () => { state.cat = b.dataset.c; sync(); render(); });
     $('pills').querySelector('[data-promo]')?.addEventListener('click', () => { state.promos = !state.promos; sync(); render(); });
 
-    let items = cat.productos.filter(p => (!c || p.categoria_id === c.id) && (!state.promos || U.promoDe(p, cat.promos)));
+    let items = U.expandir(cat.productos).filter(p => (!c || p.categoria_id === c.id) && (!state.promos || U.promoDe(p, cat.promos)));
     const palabras = norm(state.q).split(/\s+/).filter(Boolean);
     if (palabras.length) items = items.map(p => ({ p, s: puntaje(p, palabras) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s).map(x => x.p);
-    else items = items.slice().sort((a, b) => (b.destacado - a.destacado) || (a.orden - b.orden));
+    else { const co = (x) => catById[x.categoria_id]?.orden ?? 99; items = items.slice().sort((a, b) => (co(a) - co(b)) || (a.orden - b.orden) || ((a._vi || 0) - (b._vi || 0))); }
     if (state.sort) {
       const val = (p) => { const pr = U.desdePrecio(p, cat.promos); return pr.mostrar ? pr.precio : (state.sort === 'asc' ? Infinity : -Infinity); };
       items.sort((a, b) => state.sort === 'asc' ? val(a) - val(b) : val(b) - val(a));

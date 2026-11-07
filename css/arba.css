@@ -271,6 +271,7 @@ body.lock{overflow:hidden}
 .card .info{display:block;padding:14px 2px 0}
 .card .cat{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--arena-osc)}
 .card h3{font-size:18px;font-weight:400;margin:6px 0 2px;letter-spacing:-.01em;line-height:1.2}
+.card h3 .vn{display:block;font-size:.82em;color:var(--tinta-suave);margin-top:3px}
 .card .res{font-size:14px;color:var(--tinta-suave);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .pr{margin-top:10px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .card .pr small{font-size:12px;color:var(--tinta-suave)}
@@ -294,7 +295,7 @@ body.lock{overflow:hidden}
 /* producto */
 .crumbs{font-size:13px;color:var(--tinta-suave);padding:22px 0;display:flex;gap:8px;flex-wrap:wrap}
 .crumbs a:hover{color:var(--tinta)}
-.pdp{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start;padding-bottom:90px}
+.pdp{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:start;padding-bottom:90px}
 @media(max-width:900px){.pdp{grid-template-columns:minmax(0,1fr);gap:26px}}
 .gal-main{position:relative;aspect-ratio:4/5;border-radius:240px 240px var(--r) var(--r);overflow:hidden;background:var(--marfil-2)}
 .gal-main img{width:100%;height:100%;object-fit:cover}

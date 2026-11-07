@@ -100,9 +100,31 @@
 
   // ═════════════ TARJETA DE PRODUCTO ═════════════
   const vacio = (icono) => `<div class="ph-empty"><div class="art">${ICONOS[icono] || ICONOS.generico}</div></div>`;
+  // Fotos de una variante: la alt de la imagen lleva "Nombre · etiqueta" y la etiqueta tiene que estar en el nombre de la variante
+  const normTxt = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+  function fotoDeVariante(imgs, v) {
+    if (!v) return -1;
+    const nv = normTxt(v.nombre);
+    return (imgs || []).findIndex(im => { const t = String(im.alt || '').split(' · ')[1]; return t && nv.includes(normTxt(t)); });
+  }
+  // Catálogo: un producto con varias variantes se muestra como una tarjeta por variante
+  function expandir(productos) {
+    const out = [];
+    for (const p of productos) {
+      const vs = (p.variantes || []).filter(v => v.disponible !== false);
+      if (vs.length < 2) { out.push(p); continue; }
+      vs.forEach((v, i) => {
+        const k = fotoDeVariante(p.imagenes, v);
+        const imgs = k > 0 ? [p.imagenes[k], ...p.imagenes.filter((_, j) => j !== k)] : p.imagenes;
+        out.push({ ...p, _base: p, _v: v, _vi: i, imagenes: imgs, variantes: [v] });
+      });
+    }
+    return out;
+  }
   function card(p, cat, promos) {
     const pr = desdePrecio(p, promos);
     const img = p.imagenes[0], img2 = p.imagenes[1];
+    const href = `producto.html?p=${encodeURIComponent(p.slug)}${p._v ? '&v=' + encodeURIComponent(p._v.id) : ''}`;
     const sw = (p.variantes || []).filter(v => v.color_hex).slice(0, 5);
     const c1 = cuotas(pr)[0];
     const badges = [];
@@ -110,15 +132,15 @@
     if (p.etiqueta) badges.push(`<span class="badge">${esc(p.etiqueta)}</span>`);
     if (p.es_muestra) badges.push('<span class="badge muestra">Muestra</span>');
     return `<article class="card" data-slug="${esc(p.slug)}">
-      <a class="ph" href="producto.html?p=${encodeURIComponent(p.slug)}" aria-label="${esc(p.nombre)}">
+      <a class="ph" href="${href}" aria-label="${esc(p.nombre)}">
         ${img ? `<img src="${esc(img.url)}" alt="${esc(img.alt || p.nombre)}" loading="lazy">${img2 ? `<img class="alt" src="${esc(img2.url)}" alt="" loading="lazy">` : ''}` : vacio(cat?.icono)}
         <div class="badges">${badges.join('')}</div>
       </a>
-      <button class="quick" type="button" data-quick="${esc(p.slug)}" aria-label="Agregar al carrito">+</button>
-      <a class="info" href="producto.html?p=${encodeURIComponent(p.slug)}">
+      <button class="quick" type="button" data-quick="${esc(p.slug)}"${p._v ? ` data-v="${esc(p._v.id)}"` : ''} aria-label="Agregar al carrito">+</button>
+      <a class="info" href="${href}">
         ${cat ? `<div class="cat">${esc(cat.nombre)}</div>` : ''}
-        <h3>${esc(p.nombre)}</h3>
-        ${p.resumen ? `<div class="res">${esc(p.resumen)}</div>` : ''}
+        <h3>${esc(p.nombre)}${p._v ? `<span class="vn">${esc(p._v.nombre)}</span>` : ''}</h3>
+        ${p.resumen && !p._v ? `<div class="res">${esc(p.resumen)}</div>` : ''}
         ${pr.mostrar ? `
           <div class="pr">${pr.varios ? '<small>desde</small>' : ''}<b>${money(pr.precio)}</b>${pr.anterior ? `<s>${money(pr.anterior)}</s>` : ''}</div>
           ${pr.ahorro >= 5 ? `<div class="save">${pr.ahorro}% menos en efectivo o transferencia</div>` : ''}
@@ -135,6 +157,8 @@
         e.preventDefault();
         const p = catalogo.productos.find(x => x.slug === b.dataset.quick); if (!p) return;
         const vs = (p.variantes || []).filter(v => v.disponible !== false);
+        const vFija = b.dataset.v && vs.find(v => String(v.id) === b.dataset.v);
+        if (vFija) { carrito.add(itemDe(p, vFija, catalogo.promos, catalogo.categorias.find(c => c.id === p.categoria_id)), 1); return; }
         if (vs.length > 1) { location.href = `producto.html?p=${encodeURIComponent(p.slug)}&elegir=1`; return; }
         const cat = catalogo.categorias.find(c => c.id === p.categoria_id);
         carrito.add(itemDe(p, vs[0] || null, catalogo.promos, cat), 1);
@@ -315,5 +339,5 @@
   async function boot() { SITE = await ArbaAPI.config(); return SITE; }
 
   window.ArbaUI = { LOGO, ICONOS, esc, money, precioDe, desdePrecio, promoDe, cuotas, cuotaTxt, waURL, track, bindWA, rebindWA,
-    card, bindQuick, vacio, carrito, itemDe, toggleCart, toast, countdown, finDe, shell, reveal, carousel, boot };
+    card, expandir, fotoDeVariante, bindQuick, vacio, carrito, itemDe, toggleCart, toast, countdown, finDe, shell, reveal, carousel, boot };
 })();
